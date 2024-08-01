@@ -4,7 +4,7 @@ import { AuthContext } from '../providers/AuthProviders';
 
 const Login = () => {
 
-const {signIn} = useContext(AuthContext);
+    const { signIn, signInWithGoogle } = useContext(AuthContext);
 
 
 
@@ -17,6 +17,18 @@ const {signIn} = useContext(AuthContext);
         console.log(email, password);
 
         signIn(email, password)
+            .then(result => {
+                const loggedUser = result.user;
+                console.log(loggedUser);
+                form.reset();
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    const handleGoogleSignIn = () => {
+        signInWithGoogle()
         .then(result => {
             const loggedUser = result.user;
             console.log(loggedUser);
@@ -55,9 +67,14 @@ const {signIn} = useContext(AuthContext);
                             <button className="btn btn-primary">Login</button>
                         </div>
                     </form>
-                    <Link to="/register">
-                        <button className="btn btn-active btn-link">New To Auth Master</button>
-                    </Link>
+                    <p className='mb-4 ml-8'>
+                        <Link to="/register">
+                            <button className="btn btn-active btn-link">New To Auth Master? Please Register</button>
+                        </Link>
+                    </p>
+                    <div>
+                        <button onClick={handleGoogleSignIn} className="btn btn-primary">Google</button>
+                    </div>
                 </div>
             </div>
         </div>
