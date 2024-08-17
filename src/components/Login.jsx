@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../providers/AuthProviders';
 
 const Login = () => {
+
+    const [show, setShow] = useState(false);
 
     const { signIn, signInWithGoogle } = useContext(AuthContext);
     const location = useLocation();
@@ -35,13 +37,13 @@ const Login = () => {
 
     const handleGoogleSignIn = () => {
         signInWithGoogle()
-        .then(result => {
-            const loggedUser = result.user;
-            console.log(loggedUser);
-        })
-        .catch(error => {
-            console.log(error);
-        })
+            .then(result => {
+                const loggedUser = result.user;
+                console.log(loggedUser);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
 
@@ -64,7 +66,12 @@ const Login = () => {
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="password" name='password' placeholder="password" className="input input-bordered" required />
+                            <input type={show ? "text" : "password"} name='password' placeholder="password" className="input input-bordered" required />
+                            <p onClick={() => setShow(!show)}><small>
+                                {
+                                    show ? <span>Hide password</span> : <span>Show password</span>
+                                }
+                            </small></p>
                             <label className="label">
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label>
